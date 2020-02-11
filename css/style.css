@@ -1,0 +1,84 @@
+p {
+	margin: 2rem;
+}
+
+div .div1 {
+	display: flex;
+	justify-content: space-between;
+}
+
+header {
+	text-align: center;
+}
+img.headerpic {
+	object-fit: contain;
+	width: 85%;
+}
+
+nav.navbar.navbar-light.bg-light.navbartop {
+	padding: 50px;
+}
+
+img.logoimg {
+	width: 150px;
+	height: 85px;
+}
+
+img.logoizq {
+	width: 10%;
+}
+
+body > nav.navbar.navbar-light.bg-light.navbartop > a.contacticon {
+	color: peru;
+}
+
+#navbarSupportedContent > form > button {
+	border-color: peru;
+	color: peru;
+}
+
+#navbarSupportedContent > form > button:hover {
+	background-color: peru;
+	color: whitesmoke;
+}
+
+button.btn:nth-child(1) {
+	background-color: peru;
+	border-color: peru;
+}
+button.btn:nth-child(1):hover {
+	background-color: whitesmoke;
+	color: peru;
+	border-color: peru;
+}
+
+main {
+	margin-top: 3rem;
+	margin-left: 4rem;
+	margin-right: 4rem;
+	text-align: justify;
+}
+
+.box {
+	display: flex;
+	background-color: red;
+	/* margin: 200px; */
+	justify-content: space-around;
+}
+.boxc {
+	display: flex;
+	background-color: chartreuse;
+	/* margin: 200px; */
+	flex-direction: column;
+	width: 40%;
+}
+.boxinside {
+	background-color: cornflowerblue;
+	display: flex;
+	justify-content: space-around;
+}
+
+table.tablebotop:nth-child(2),
+html.gr__127_0_0_1 body main div.boxinside table.table.tablebotop {
+	width: 45%;
+}
