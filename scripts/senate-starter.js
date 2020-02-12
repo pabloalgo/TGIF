@@ -1,49 +1,38 @@
+// Value to start array from json
 const members = data.results[0].members;
+// Values to insert in cells
 const senatorData = ["name", "party", "state", "seniority", "total_votes"];
+// Value zero to create table
 const tbody = document.getElementById("senate-data");
 
 /*
 
 function createTable(array) {
 	// creacion de elementos aqui solo se crean los emementos
-	var tr = document.createElement("senate-data");
-	console.log();
-
 	// insercion de data hay que insertar los datos dentro de td, tr, y llamar tbody id luego append para escribir
-
 	// append de elementos hasta que no hay append el resto vive dentro de js
-
-
-
 	// document.append.getElementById("pablos");
-}
-
-createTable(members); */
-/*
-//console.log(members);
-
-
 // Building table with candidates
 */
-function orderData(array) {
-	// create a loop to store the members in table rows
 
+function createDataTable(array) {
+	// create a loop to push  members in table rows
+	tbody.innerHTML = " ";
 	for (i = 0; i < array.length; i++) {
 		var createRow = document.createElement("tr");
 		// loop to order each senatorData inside a td
-		console.log(array);
+		//console.log(array);
 
 		for (j = 0; j < senatorData.length; j++) {
 			var createCell = document.createElement("td");
 
 			switch (true) {
+				// Joint Name + Middle Name + Last Name
 				case j == 0 && array[i].middle_name == null:
 					createCell.innerHTML = array[i].first_name + " " + array[i].last_name;
 					//+ " " + array[i].last_name
-					console.log(array[i].first_name);
-
+					//console.log(array[i].first_name);
 					break;
-
 				case j == 0:
 					createCell.innerHTML =
 						array[i].first_name +
@@ -51,11 +40,9 @@ function orderData(array) {
 						array[i].middle_name +
 						" " +
 						array[i].last_name;
-					console.log("segundo case");
-
-					// console.log(mates[i]);
+					//console.log("segundo case");
 					break;
-
+				// Filling the rest of the values
 				case j > 0:
 					createCell.innerHTML = array[i][senatorData[j]];
 					break;
@@ -89,7 +76,7 @@ function orderData(array) {
 		tbody.appendChild(createRow);
 	}
 }
-orderData(members);
+createDataTable(members);
 
 /*                            TESTING 
 			function myFunction() {
@@ -107,56 +94,22 @@ orderData(members);
 
  document.getElementById("checkR").addEventListener("click", function() {
 	FilterData(members, "R"); 
- document.getElementById("checkR").addEventListener("click", function() {
-	FilterData(members, "R");
-}); 
-document.getElementById("checkD").addEventListener("click", function() {
-	FilterData(members, "D");
-});
-document.getElementById("checkI").addEventListener("click", function() {
-	FilterData(members, "I");
-});
-*/
 
-// document.getElementById('stateDropdown').addEventListener("change", filter);
 
-// document.getElementsByClassName("checks").addEventListener("click");
+// document.getElementsByClassName("form-check").addEventListener("click");
 
 checkboxD = document.getElementById("checkD");
 checkboxI = document.getElementById("checkI");
 checkboxR = document.getElementById("checkR");
 
+
 /*  THINGS TO DO 
- Create array to get de values from checkboxes
- push the value in array
- check if an array includes a value  with a for for all memebers party
- console.log of newarray
- include */
+ Create array to get the values from checkboxes
+ push the value from checkboxes in array to compare 
+ check if an array includes a value  with a for for all memebers party and filter
+should I use include function ? */
 
-let inputElements = document.getElementsByClassName("checks");
-console.log("checks", inputElements);
-
-// Creating new array with filters
-function FilterData() {
-	// Checking filters from parties elementesbyclassname create an array
-	var checksValues = [];
-
-	for (var i = 0; inputElements[i]; ++i) {
-		if (inputElements[i].checked) {
-			checksValues.push(inputElements[i].value);
-		}
-	}
-	console.log("soy check value", checksValues);
-	console.log("soy members", members);
-
-	//FilterData(members, checksValues);
-
-	let Newarray = members.filter(item => checksValues.includes(item.party));
-	console.log("soy la nueva array", Newarray);
-	orderData(Newarray);
-}
-
-let filtersparties = document.getElementsByClassName("checks");
+let filtersparties = document.getElementsByClassName("form-check");
 
 console.log("soy filters parties", filtersparties);
 
@@ -166,4 +119,50 @@ for (let i = 0; i < filtersparties.length; i++) {
 	filtersparties[i].addEventListener("click", FilterData);
 }
 
-// ineherenthtml " " borrar tabla
+let inputElements = document.getElementsByClassName("form-check");
+console.log("form-check", inputElements);
+
+// Creating new array with members filters
+function FilterData() {
+	// Checking filters from parties elementesbyclassname create an array
+	var filtercheckvalues = [];
+	// Looping the array with values an pushing to filtercheckvalues to compare it in filter members.filter() filter is a function
+	for (var i = 0; inputElements[i]; ++i) {
+		if (inputElements[i].checked) {
+			filtercheckvalues.push(inputElements[i].value);
+		}
+		console.log("soy check value", filtercheckvalues);
+		console.log("soy check inputsElementes", inputElements);
+	}
+	console.log("soy members", members);
+
+	//FilterData(members, filtercheckvalues);
+	/* The includes() method determines whether an array includes a certain 
+value among its entries, returning true or false as appropriate. Item become members array you could use anyname*/
+
+	let newMembers = members.filter(item =>
+		filtercheckvalues.includes(item.party)
+	);
+	console.log("soy la nueva array", newMembers);
+	createDataTable(newMembers);
+}
+
+// Creating an array with all States .map looks for an element in a object x could be any name
+let statesArray = members.map(x => x.state);
+console.log("estados", statesArray);
+// Array.from create a New array without duplicates
+let statesWithoutDuplicates = Array.from(new Set(statesArray));
+console.log("states array", statesWithoutDuplicates);
+
+// Get dropdown element from DOM
+//var dropdown = document.getElementById("selectNumber");
+
+var dropdown = document.getElementById("misoptions");
+
+for (var i = 0; i < statesWithoutDuplicates.length; i++) {
+	var opt = statesWithoutDuplicates[i];
+	var el = document.createElement("option");
+	el.textContent = opt;
+	el.value = opt;
+	dropdown.appendChild(el);
+}
