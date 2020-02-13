@@ -82,3 +82,23 @@ table.tablebotop:nth-child(2),
 html.gr__127_0_0_1 body main div.boxinside table.table.tablebotop {
 	width: 45%;
 }
+
+#senate-data > tr > td > span {
+	text-justify: center;
+	background-color: red;
+}
+
+#senate-data > tr > td {
+	width: max-content;
+	background-color: salmon;
+	justify-content: center;
+}
+
+#senate-data {
+	justify-content: center;
+	background-color: royalblue;
+}
+
+#senate-data > tr > td.errorms {
+	text-align: center;
+}
