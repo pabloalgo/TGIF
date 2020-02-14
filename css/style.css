@@ -1,5 +1,5 @@
 p {
-	margin: 2rem;
+	margin: 0;
 }
 
 div .div1 {
@@ -101,4 +101,8 @@ html.gr__127_0_0_1 body main div.boxinside table.table.tablebotop {
 
 #senate-data > tr > td.errorms {
 	text-align: center;
+}
+
+option:hover {
+	background-color: turquoise;
 }

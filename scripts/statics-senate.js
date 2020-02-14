@@ -1,3 +1,43 @@
+// API KEY xyIXQJFsjHy2gTDbB2wjkoIzVS0mWHscNHkindLs
+
+const inputElements = document.getElementsByClassName("form-check");
+
+var array;
+//"Access-Control-Allow-Origin: "
+
+fetch("https://api.propublica.org/congress/v1/113/senate/members.json", {
+	method: "GET",
+	headers: {
+		"X-API-Key": `xgcjmvEPRCLkUdtiMETXRdFrRZ6H9E6SVh3tNsaY `
+	}
+})
+	.then(function(response) {
+		//if (response.ok) {
+		console.log("soy response", response);
+
+		return response.json();
+		//}
+		//throw new Error(response.statusText);
+	})
+	.then(function(json) {
+		// do somenthing with json data
+		console.log("soy data del fetch", json);
+		members = json.results[0].members;
+		console.log("members ok", members);
+		//FilterData();
+		//dropDownStates();
+		//evenListener();
+
+		//createDataTable(members);
+
+		// LLAMAR FUNCIONES QUE EJECUTAN DATOS FILTROS, CREAR TABLA ...
+		// SI CREO UNA FUNCION DENTRO DE OTRA FUNCION LA PUEDO LLAMAR DE FUERA? CREO QUE EL SCOPE VA COMO LAS VARIABLES DE DENTRO HACIA AFUERA
+	});
+//.catch(function(error) {
+// called when an error occurs anywhere in the chain
+// console.log("Request failed: " + error.message);
+//})
+
 const tbodyTotal = document.getElementById("senatorsStats");
 const arraymembers = data.results[0].members;
 
@@ -19,7 +59,6 @@ statistics = {
 	TotalParty: arraymembers.length,
 	totalmiss10xcent: 0
 };
-//console.log(statistics);
 function FillStats(array) {
 	for (i = 0; i < arraymembers.length; i++) {
 		var createCell = document.createElement("td");
@@ -33,14 +72,14 @@ function FillStats(array) {
 
 				// Getting total miss votes to calculate botton 10%
 				// statistics.totalmissedvotes += arraymembers[i].missed_votes;
-				// console.log("aqui el break1");
+
 				break;
 
 			case arraymembers[i].party == "D":
 				statistics.dem++;
 				//	other way to sumatory +=
 				statistics.totalvotewithd += arraymembers[i].votes_with_party_pct;
-				// console.log("aqui el break2");
+
 				statistics.totalmissedvotes += arraymembers[i].missed_votes;
 
 				break;
@@ -50,17 +89,8 @@ function FillStats(array) {
 				statistics.totalvotewithi += arraymembers[i].votes_with_party_pct;
 				statistics.totalmissedvotes += arraymembers[i].missed_votes;
 
-				// console.log("aqui el break3");
 				break;
 		}
-		console.log("FOR", i);
-		console.log("Rep stat", statistics.rep);
-		console.log("Dem stat", statistics.dem);
-		console.log("Ind stat", statistics.ind);
-		console.log("here total R", statistics.totalvotewithr);
-		console.log("here total D", statistics.totalvotewithd);
-		console.log("here total I", statistics.totalvotewithi);
-		console.log("ToTal Missed", statistics.totalmissedvotes);
 	}
 
 	// Calculate average
@@ -75,19 +105,11 @@ function FillStats(array) {
 	);
 	statistics.averageTotal =
 		(statistics.averagere + statistics.averagede + statistics.averagein) / 3;
-
-	console.log("End %");
-	console.log(statistics.averagere);
-	console.log(statistics.averagede);
-	console.log(statistics.averagein);
-	console.log("Total average", statistics.averageTotal);
 }
 FillStats(arraymembers);
 
 // Calculating botton 10%
 statistics.totalmiss10xcent = statistics.totalmissedvotes / 10;
-console.log(statistics.totalmiss10xcent);
-console.log(arraymembers.length);
 
 // SECOND TABLES
 
@@ -106,17 +128,14 @@ function bottomstatics(array) {
 	const tbody = document.getElementById("senatorsBottomEngaged");
 
 	let bottomtenpercent = Math.round(array.length * 0.1);
-	console.log("Here 10% bottom", bottomtenpercent);
-	console.log("HI I AM 10% BOTTOM", array[bottomtenpercent].missed_votes_pct);
+	
 	let realtenpercent = array[bottomtenpercent].missed_votes_pct;
 	// After order the function get the 10% bottom
 
 	for (i = 0; i < bottomtenpercent; i++) {
 		var createRow = document.createElement("tr");
 
-		console.log("aqui primer for", i);
 		for (j = 0; j < senatormissvotes.length; j++) {
-			console.log("aqui segundo for");
 			var createCell = document.createElement("td");
 
 			//	Writting data and Full Name
@@ -161,17 +180,13 @@ function bottomstatics(array) {
 
 	let bottomtenpercent = Math.round(sortedArray.length * 0.1);
 	let realtenpercent = sortedArray[bottomtenpercent - 1].missed_votes_pct;
-	console.log("Here 10% bottom", bottomtenpercent);
-	console.log("HI I AM 10% BOTTOM", realtenpercent);
 
 	for (i = 0; i < sortedArray.length; i++)
 		if (sortedArray[i].missed_votes_pct >= realtenpercent) {
 			{
 				var createRow = document.createElement("tr");
 
-				console.log("aqui primer for", i);
 				for (j = 0; j < senatormissvotes.length; j++) {
-					console.log("aqui segundo for");
 					var createCell = document.createElement("td");
 
 					//	Writting data and Full Name
@@ -215,15 +230,13 @@ function Topstaticsatendance(array) {
 	// After order the function get the 10% TOp
 
 	let Toptenpercent = array.length - Math.round(array.length * 0.1);
-	console.log("Here 10% Top", Toptenpercent);
-	console.log("HI I AM Real 10% Top", array[Toptenpercent].missed_votes_pct);
+
 	let realtenpercent = array[Toptenpercent].missed_votes_pct;
 
 	for (i = Toptenpercent; i < array.length; i++) {
 		var createRow = document.createElement("tr");
 
 		for (j = 0; j < senatormissvotes.length; j++) {
-			console.log("aqui segundo for");
 			var createCell = document.createElement("td");
 
 			//	Writting data and Full Name, adding link url
