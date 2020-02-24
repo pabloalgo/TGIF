@@ -56,7 +56,7 @@ if (localStorage.getItem("members")) {
 		});
 }
 function start() {
-	if (page == "house-starter-page.html" || page == "ssenate-starter-page.html") {
+	if (page == "house-starter-page.html" || page == "senate-starter-page.html") {
 		console.log("START MEMBERS", members);
 		dropDownStates(members);
 		evenListeners(members);
@@ -108,7 +108,7 @@ function createDataTable(array) {
 
 			for (j = 0; j < senatorData.length; j++) {
 				var createCell = document.createElement("td");
-
+				// reparar switch
 				switch (true) {
 					// Joint Name + Middle Name + Last Name
 					case j == 0 && array[i].middle_name == null:
