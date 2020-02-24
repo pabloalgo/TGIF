@@ -1,260 +1,329 @@
-const tbodyTotal = document.getElementById("senatorsStats");
-const arraymembers = data.results[0].members;
+// "https://cors-anywhere.herokuapp.com/https://api.propublica.org/congress/v1/113/senate/members.json"
+// keeping code in (function) variables are not visible on window()
+(function() {
+	// const array = data.results[0].members;
+	const tBodyTop = document.getElementById("senatorsTopEngaged");
+	const tBodyBottom = document.getElementById("senatorsBottomEngaged");
+	// const senatormissvotes = ["name", "missed_votes", "missed_votes_pct"];
+	let arraymembers;
+	var patch = window.location.pathname;
+	var page = patch.split("/").pop();
+	console.log("WICH PAGE", page);
+	let valueToCalculateTenpercent;
+	var tbodyt = document.getElementById("senatorsTopEngaged");
+	console.log("WICH PAGE", tbodyt);
 
-/* Values we need to check arraymembers.votes_with_party_pct, votes_against_party_pct,  party url total_votes ... 
-average = (votes_with_party_pct / total_votes) */
+	var tbodyt = document.getElementById("senatorsBottomEngaged");
+	console.log("WICH PAGE", tbodyt);
 
-statistics = {
-	dem: 0,
-	rep: 0,
-	ind: 0,
-	totalvotewithd: 0,
-	totalvotewithr: 0,
-	totalvotewithi: 0,
-	averagede: 0,
-	averagere: 0,
-	averagein: 0,
-	averageTotal: 0,
-	totalmissedvotes: 0,
-	TotalParty: arraymembers.length,
-	totalmiss10xcent: 0
-};
-//console.log(statistics);
-function FillStats(array) {
-	for (i = 0; i < arraymembers.length; i++) {
-		var createCell = document.createElement("td");
+	/*************************************************   Select url to sent js  ****************************************************/
+	var senatormissvotes;
+	var url;
 
-		//statistics.dem = +1 && statistics.Tvotewithde +=  arraymemebers.votes_with_party_pct
-		switch (true) {
-			case arraymembers[i].party == "R":
-				statistics.rep++;
-				statistics.totalvotewithr =
-					statistics.totalvotewithr + arraymembers[i].votes_with_party_pct;
+	// (function) to contorl time to renew data cookies
+	(function() {
+		var lastclear = localStorage.getItem("lastclear"),
+			time_now = new Date().getTime();
 
-				// Getting total miss votes to calculate botton 10%
-				// statistics.totalmissedvotes += arraymembers[i].missed_votes;
-				// console.log("aqui el break1");
-				break;
+		if (time_now - lastclear > 1000 * 24 * 60 * 60) {
+			localStorage.clear();
 
-			case arraymembers[i].party == "D":
-				statistics.dem++;
-				//	other way to sumatory +=
-				statistics.totalvotewithd += arraymembers[i].votes_with_party_pct;
-				// console.log("aqui el break2");
-				statistics.totalmissedvotes += arraymembers[i].missed_votes;
-
-				break;
-
-			case arraymembers[i].party == "I":
-				statistics.ind++;
-				statistics.totalvotewithi += arraymembers[i].votes_with_party_pct;
-				statistics.totalmissedvotes += arraymembers[i].missed_votes;
-
-				// console.log("aqui el break3");
-				break;
+			localStorage.setItem("lastclear", time_now);
 		}
-		console.log("FOR", i);
-		console.log("Rep stat", statistics.rep);
-		console.log("Dem stat", statistics.dem);
-		console.log("Ind stat", statistics.ind);
-		console.log("here total R", statistics.totalvotewithr);
-		console.log("here total D", statistics.totalvotewithd);
-		console.log("here total I", statistics.totalvotewithi);
-		console.log("ToTal Missed", statistics.totalmissedvotes);
+	})();
+	if (page == "senate-attendance-starter-page.html") {
+		//cors-anywhere.herokuapp.com/
+		// console.log("WICH PAGE IFFFFF", page);
+		https: url = "https://api.propublica.org/congress/v1/113/senate/members.json";
+		senatormissvotes = ["name", "missed_votes", "missed_votes_pct"];
+		valueToCalculateTenpercent = senatormissvotes[2];
+		var pageData = "senate";
+		console.log("URL API", url);
+		// senatormissvotes[2];
 	}
+	if (page == "house-attendance-starter-page.html") {
+		console.log("WICH PAGE IFFFFF", page);
+		url = "https://api.propublica.org/congress/v1/113/house/members.json";
+		senatormissvotes = ["name", "missed_votes", "missed_votes_pct"];
+		valueToCalculateTenpercent = senatormissvotes[2];
+		console.log("URL API", url);
+		var pageData = "house";
 
-	// Calculate average
-	statistics.averagere = (statistics.totalvotewithr / statistics.rep).toFixed(
-		2
-	);
-	statistics.averagede = (statistics.totalvotewithd / statistics.dem).toFixed(
-		2
-	);
-	statistics.averagein = (statistics.totalvotewithi / statistics.ind).toFixed(
-		2
-	);
-	statistics.averageTotal =
-		(statistics.averagere + statistics.averagede + statistics.averagein) / 3;
+		//valueToCalculateTenpercent = " missed_votes_pct";
+	}
+	if (page == "senate-loyalty-starter-page.html") {
+		console.log("WICH PAGE senate", page);
+		// https://cors-anywhere.herokuapp.com/
 
-	console.log("End %");
-	console.log(statistics.averagere);
-	console.log(statistics.averagede);
-	console.log(statistics.averagein);
-	console.log("Total average", statistics.averageTotal);
-}
-FillStats(arraymembers);
+		url = "https://api.propublica.org/congress/v1/113/senate/members.json";
+		senatormissvotes = ["name", "total_votes", "votes_with_party_pct"];
+		//valueToCalculateTenpercent = " missed_votes_pct";
+		valueToCalculateTenpercent = senatormissvotes[2];
+		console.log("URL API", url);
+		var pageData = "senate";
+	}
+	if (page == "house-loyalty-starter-page.html") {
+		console.log("url house", url);
+		url = "https://api.propublica.org/congress/v1/113/house/members.json";
+		senatormissvotes = ["name", "total_votes", "votes_with_party_pct"];
+		valueToCalculateTenpercent = senatormissvotes[2];
+		console.log("URL API", url);
+		var pageData = "house";
+		//valueToCalculateTenpercent = " missed_votes_pct";
+	}
+	/******************************* LOCAL STORAGE KEEP ON TXT MUST BE PARSE TO CHANGE TXT IN OBJECT   ******************************/
 
-// Calculating botton 10%
-statistics.totalmiss10xcent = statistics.totalmissedvotes / 10;
-console.log(statistics.totalmiss10xcent);
-console.log(arraymembers.length);
+	if (pageData == "house" && localStorage.getItem("houseLocal")) {
+		var newtest = localStorage.getItem("houseLocal");
+		arraymembers = JSON.parse(newtest);
+		console.log("localstore arraymembers", arraymembers);
+		// document.getElementById("loading").style.display = "none";
+		start();
+	} else if (pageData == "senate" && localStorage.getItem("senateLocal")) {
+		// localStorage.getItem("senateLocal");
+		var newtest = localStorage.getItem("senateLocal");
+		arraymembers = JSON.parse(newtest);
+		console.log("newtest", newtest);
+		console.log("arraymembers", arraymembers);
 
-// SECOND TABLES
+		// document.getElementById("loading").style.display = "none";
+		start();
+	} else {
+		fetch(url, {
+			method: "GET",
+			headers: {
+				"X-API-Key": `xgcjmvEPRCLkUdtiMETXRdFrRZ6H9E6SVh3tNsaY`
 
-// name
-// missed_votes_pct
-// missed_votes
-
-const senatormissvotes = ["name", "missed_votes", "missed_votes_pct"];
-
-/* FUNCIONANDO 
-function bottomstatics(array) {
-	// Order the function
-	arraymembers.sort(function(a, b) {
-		return b.missed_votes_pct - a.missed_votes_pct;
-	});
-	const tbody = document.getElementById("senatorsBottomEngaged");
-
-	let bottomtenpercent = Math.round(array.length * 0.1);
-	console.log("Here 10% bottom", bottomtenpercent);
-	console.log("HI I AM 10% BOTTOM", array[bottomtenpercent].missed_votes_pct);
-	let realtenpercent = array[bottomtenpercent].missed_votes_pct;
-	// After order the function get the 10% bottom
-
-	for (i = 0; i < bottomtenpercent; i++) {
-		var createRow = document.createElement("tr");
-
-		console.log("aqui primer for", i);
-		for (j = 0; j < senatormissvotes.length; j++) {
-			console.log("aqui segundo for");
-			var createCell = document.createElement("td");
-
-			//	Writting data and Full Name
-			if (j == 0 && array[i].middle_name == null) {
-				createCell.innerHTML = (
-					array[i].first_name +
-					" " +
-					array[i].last_name
-				).link(array[i].url);
-			} else if (j == 0) {
-				createCell.innerHTML = (
-					array[i].first_name +
-					" " +
-					array[i].middle_name +
-					" " +
-					array[i].last_name
-				).link(array[i].url);
-			} else {
-				createCell.innerHTML = array[i][senatormissvotes[j]];
+				//xgcjmvEPRCLkUdtiMETXRdFrRZ6H9E6SVh3tNsaY
+				//xyIXQJFsjHy2gTDbB2wjkoIzVS0mWHscNHkindLs
+				//ZRqqZyse9eb9miTFvaBJFfBegzzOTxz3OpxknxxO
 			}
+		})
+			.then(function(response) {
+				if (response.ok) {
+					console.log("soy response", response);
 
-			createRow.appendChild(createCell);
-		}
-		tbody.appendChild(createRow);
+					return response.json();
+				}
+				console.log("response.statusText", response.statusText);
+				throw new Error(response.statusText);
+			})
+
+			/*********************************** WAITING UNTIL RESPONSE IS OK ***********************************************/
+			.then(function(json) {
+				console.log("soy data del fetch", json);
+				let arraymembers = json.results[0].members;
+				localStorage.setItem("arraymembers", JSON.stringify(arraymembers));
+
+				if (pageData == "house") localStorage.setItem("houseLocal", JSON.stringify(arraymembers));
+				if (pageData == "senate") localStorage.setItem("senateLocal", JSON.stringify(arraymembers));
+
+				console.log("pagedata", localStorage);
+
+				console.log("pagedata", localStorage);
+				start();
+				//document.getElementById("loading").style.display = "none";
+
+				// dropDownStates(members);
+				// evenListeners(members);
+				// createDataTable(members);
+			});
+		//.catch(function(error) {
+		// called when an error occurs anywhere in the chain
+		//console.log("Request failed: " + error.message);
+		//});
 	}
-}
+	/*****************************************************INIT FUNCTIONS  **************************************************/
+	function start() {
+		if (
+			page == "senate-attendance-starter-page.html" ||
+			page == "house-attendance-starter-page.html" ||
+			page == "senate-loyalty-starter-page.html" ||
+			page == "house-loyalty-starter-page.html"
+		) {
+			console.log("SOY START");
+			console.log("SOY arraymembers", arraymembers);
 
+			fillDatesObject(arraymembers);
+		}
+	}
+	// function to create cells on Total vote table
+	function createsCells(id, numbers) {
+		createCell = document.createElement("td");
+		createCell.innerHTML = numbers;
+		id.append(createCell);
+	}
+	// Filling object to keep values to show
+	function fillDatesObject(array) {
+		const repTr = document.getElementById("rep");
+		const demTr = document.getElementById("dem");
+		const indyTr = document.getElementById("indy");
+		var statistics = {
+			dem: 0,
+			rep: 0,
+			ind: 0,
+			totalvotewithd: 0,
+			totalvotewithr: 0,
+			totalvotewithi: 0,
+			averagede: 0,
+			averagere: 0,
+			averagein: 0,
+			averageTotal: 0,
+			totalmissedvotes: 0,
+			totalParty: array.length,
+			totalmiss10xcent: 0
+		};
+		/****************************************************  Function to Calculate data *******************************************/
+		// This function calculate statistics.averagere = (statistics.totalvotewithr / statistics.rep).toFixed(2);
+		function calculAverage(totalPcent, totalPeople) {
+			if (totalPcent == 0 || totalPeople == 0) {
+				return (averaverage = 0);
+			}
+			return (totalPcent / totalPeople).toFixed(2);
+		}
 
+		for (i = 0; i < array.length; i++) {
+			if (array[i].party == "R") {
+				statistics.rep++;
+				statistics.totalvotewithr += array[i].votes_with_party_pct;
+				statistics.totalmissedvotes += array[i].missed_votes;
+			}
+			if (array[i].party == "D") {
+				statistics.dem++;
+				statistics.totalvotewithd += array[i].votes_with_party_pct;
+				statistics.totalmissedvotes += array[i].missed_votes;
+			}
+			if (array[i].party == "I") {
+				statistics.ind++;
+				statistics.totalvotewithi += array[i].votes_with_party_pct;
+				statistics.totalmissedvotes += array[i].missed_votes;
+			}
+		}
+		statistics.averagere = calculAverage(statistics.totalvotewithr, statistics.rep);
+		statistics.averagede = calculAverage(statistics.totalvotewithd, statistics.dem);
+		statistics.averagein = calculAverage(statistics.totalvotewithi, statistics.ind);
 
-bottomstatics(arraymembers);
-FIN FUNCIOANDO BOTTOM */
+		/***************************    Painting table with Total Votes             ***************************************************/
 
-function bottomstatics(array) {
-	// Order the function
-	var sortedArray = Array.from(array);
-	sortedArray.sort(function(a, b) {
-		return b.missed_votes_pct - a.missed_votes_pct;
-	});
-	const tbodyb = document.getElementById("senatorsBottomEngaged");
+		statistics.averageTotal =
+			(statistics.averagere + statistics.averagede + statistics.averagein) / (statistics.rep + statistics.dem + statistics.rep);
+		createsCells(repTr, statistics.rep);
+		createsCells(repTr, statistics.averagere + " %");
+		createsCells(demTr, statistics.dem + " %");
+		createsCells(demTr, statistics.averagede + " %");
+		createsCells(indyTr, statistics.ind + " %");
+		createsCells(indyTr, statistics.averagein + " %");
 
-	// After order the function get the 10% bottom
+		// TopToBottom(array, senatormissvotes[1], 0);
+		TopToBottom(array, 0);
+		TopToBottom(array, 1);
+	}
 
-	let bottomtenpercent = Math.round(sortedArray.length * 0.1);
-	let realtenpercent = sortedArray[bottomtenpercent - 1].missed_votes_pct;
-	console.log("Here 10% bottom", bottomtenpercent);
-	console.log("HI I AM 10% BOTTOM", realtenpercent);
+	// fillDatesObject(array);
 
-	for (i = 0; i < sortedArray.length; i++)
-		if (sortedArray[i].missed_votes_pct >= realtenpercent) {
-			{
+	/********************************************************** FILTERING DATA ***************************************************/
+	// realtenpercent is the value of missed_votes_pct or votes_against_party_pct of the last senator in 10% list to compare
+	// CHANGING VAR valueToCalculateTenpercent value to calculate missed_votes_pct or votes_against_party_pct
+	// array.keyinsideobject example array.last_name if you use a parametre is array[parametre]
+
+	function TopToBottom(objectArray, topOrBottom) {
+		if (topOrBottom === 0) {
+			var sortedArray = Array.from(objectArray);
+			sortedArray.sort(function(a, b) {
+				// return b.votes_against_party_pct - a.votes_against_party_pct or b.missed_votes_pct - a.missed_votes_pct;
+				return b[valueToCalculateTenpercent] - a[valueToCalculateTenpercent];
+			});
+			console.log("sortedArray b-a", sortedArray);
+
+			const tbodyb = document.getElementById("senatorsBottomEngaged");
+			let bottomtenpercent = Math.round(sortedArray.length * 0.1);
+			let realtenpercent = sortedArray[bottomtenpercent - 1][valueToCalculateTenpercent];
+			// console.log(bottomtenpercent, "bottomtenpercent");
+
+			// console.log("sortedArray", sortedArray);
+
+			createTables(sortedArray, realtenpercent, topOrBottom);
+		} else if (topOrBottom == 1) {
+			const tbodyt = document.getElementById("senatorsTopEngaged");
+			// console.log("TOP BOTTOM senatormissvotes[2]", senatormissvotes[2]);
+
+			var sortedArray = Array.from(objectArray);
+			sortedArray.sort(function(a, b) {
+				return a[valueToCalculateTenpercent] - b[valueToCalculateTenpercent];
+			});
+			console.log("sortedArray a - b", sortedArray);
+			let bottomtenpercent = Math.round(sortedArray.length * 0.1);
+			let realtenpercent = sortedArray[bottomtenpercent - 1][valueToCalculateTenpercent];
+			createTables(sortedArray, realtenpercent, topOrBottom);
+		}
+	}
+
+	/*********************************************************** CREATING TABLE ***************************************************/
+
+	// Change sign to calculate top or down table, dummy value to select TopOrBottom (array[i].missed_votes_pct <= realtenpercent)
+
+	function createTables(array, realtenpercent, topOrBottom) {
+		console.log("Create Tables Array", array);
+
+		// The missed_votes is value of missed votes from the Senator of top or bottomm 10%
+		if (topOrBottom == 0) {
+			var tbodyt = document.getElementById("senatorsBottomEngaged");
+
+			for (i = 0; i <= array.length && array[i][valueToCalculateTenpercent] >= realtenpercent; i++) {
 				var createRow = document.createElement("tr");
-
-				console.log("aqui primer for", i);
 				for (j = 0; j < senatormissvotes.length; j++) {
-					console.log("aqui segundo for");
 					var createCell = document.createElement("td");
-
 					//	Writting data and Full Name
-					if (j == 0 && sortedArray[i].middle_name == null) {
-						createCell.innerHTML = (
-							sortedArray[i].first_name +
-							" " +
-							sortedArray[i].last_name
-						).link(sortedArray[i].url);
-					} else if (j == 0) {
-						createCell.innerHTML = (
-							sortedArray[i].first_name +
-							" " +
-							sortedArray[i].middle_name +
-							" " +
-							sortedArray[i].last_name
-						).link(sortedArray[i].url);
-					} else {
-						createCell.innerHTML = sortedArray[i][senatormissvotes[j]];
+					var fullName = (array[i].first_name + " " + (array[i].middle_name || " ") + " " + array[i].last_name).link(array[i].url);
+					createCell.innerHTML = fullName;
+					if (j == 1) {
+						createCell.innerHTML = array[i][senatormissvotes[j]];
+					} else if (j == 2) {
+						createCell.innerHTML = array[i][senatormissvotes[j]] + " %";
 					}
 
 					createRow.appendChild(createCell);
 				}
-				tbodyb.appendChild(createRow);
+				tbodyt.appendChild(createRow);
 			}
-		} else {
-			//para que la funcion pare sin llegar a recorrer el array hasta el final cuando la condicion no se cumpla
-			break;
 		}
-}
+		if (topOrBottom == 1) {
+			var tbodyt = document.getElementById("senatorsTopEngaged");
 
-bottomstatics(arraymembers);
+			for (i = 0; i <= array.length && array[i][valueToCalculateTenpercent] <= realtenpercent; i++) {
+				var createRow = document.createElement("tr");
 
-function Topstaticsatendance(array) {
-	// Order the function
-	array.sort(function(a, b) {
-		return b.missed_votes_pct - a.missed_votes_pct;
-	});
-	const tbodyt = document.getElementById("senatorsTopEngaged");
+				for (j = 0; j < senatormissvotes.length; j++) {
+					var createCell = document.createElement("td");
+					//	Writting data and Full Name
+					var fullName = (array[i].first_name + " " + (array[i].middle_name || " ") + " " + array[i].last_name).link(array[i].url);
+					createCell.innerHTML = fullName;
+					if (j == 1) {
+						createCell.innerHTML = array[i][senatormissvotes[j]];
+					} else if (j == 2) {
+						createCell.innerHTML = array[i][senatormissvotes[j]] + " %";
+					}
 
-	// After order the function get the 10% TOp
-
-	let Toptenpercent = array.length - Math.round(array.length * 0.1);
-	console.log("Here 10% Top", Toptenpercent);
-	console.log("HI I AM Real 10% Top", array[Toptenpercent].missed_votes_pct);
-	let realtenpercent = array[Toptenpercent].missed_votes_pct;
-
-	for (i = Toptenpercent; i < array.length; i++) {
-		var createRow = document.createElement("tr");
-
-		for (j = 0; j < senatormissvotes.length; j++) {
-			console.log("aqui segundo for");
-			var createCell = document.createElement("td");
-
-			//	Writting data and Full Name, adding link url
-			// window.open() Consultar
-			if (j == 0 && array[i].middle_name == null) {
-				createCell.innerHTML = (
-					array[i].first_name +
-					" " +
-					array[i].last_name
-				).link(array[i].url);
-			} else if (j == 0) {
-				createCell.innerHTML = (
-					array[i].first_name +
-					" " +
-					array[i].middle_name +
-					" " +
-					array[i].last_name
-				).link(arraymembers[i].url);
-			} else {
-				createCell.innerHTML = array[i][senatormissvotes[j]];
+					createRow.appendChild(createCell);
+				}
+				tbodyt.appendChild(createRow);
 			}
-
-			createRow.appendChild(createCell);
 		}
-		tbodyt.appendChild(createRow);
 	}
-}
 
-Topstaticsatendance(arraymembers);
+	function moreOrLessButton() {
+		var dots = document.getElementById("dots");
+		var moreText = document.getElementById("more");
+		var btnText = document.getElementById("myBtn");
 
-// hacer una funcion que calcule el funcion array(asc) true o false, if asc  array.sort(function(a, b) si es dsc
-// { return b.missed_votes_pct - a.missed_votes_pct; else al reves sort b-a
-
-// hacer una funcion que haga el crear tabla, creatabla(id,array)
+		if (dots.style.display === "none") {
+			dots.style.display = "inline";
+			btnText.innerHTML = "Read more";
+			moreText.style.display = "none";
+		} else {
+			dots.style.display = "none";
+			btnText.innerHTML = "Read less";
+			moreText.style.display = "inline";
+		}
+	}
+})();

@@ -22,22 +22,14 @@
 
 		<!-- 	<div class="topup"> -->
 		<!-- Image and text -->
+		<h2>HOUSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE STARTEERRRRRRRR</h2>
 		<nav class="navbar navbar-light bg-light navbartop">
 			<img class="logoizq" src="./img/Tgi_fridays_logo13.svg.png" />
 			<a class="navbar-brand" href="./index.html">
-				<img
-					class="logoimg"
-					src="/img/800px-Barcode_American_Flag.png"
-					width="30"
-					height="30"
-					class="d-inline-block align-top"
-					alt=""
-				/>
+				<img class="logoimg" src="/img/800px-Barcode_American_Flag.png" width="30" height="30" class="d-inline-block align-top" alt="" />
 			</a>
 
-			<a class="contacticon" href="mailto:info@tgif.net">
-				<i class="far fa-envelope"></i> Contact</a
-			>
+			<a class="contacticon" href="mailto:info@tgif.net"> <i class="far fa-envelope"></i> Contact</a>
 		</nav>
 
 		<!--	<div class="topup"> AQUI HAY BOOTSTRAP 	 -->
@@ -45,9 +37,7 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="./index.html"
-							>Home <span class="sr-only">(current)</span></a
-						>
+						<a class="nav-link" href="./index.html">Home <span class="sr-only">(current)</span></a>
 					</li>
 
 					<li class="nav-item dropdown">
@@ -63,13 +53,9 @@
 							Congres113
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="./senate-starter-page.html"
-								>Senate</a
-							>
+							<a class="dropdown-item" href="./senate-starter-page.html">Senate</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="./house-starter-page.html"
-								>House</a
-							>
+							<a class="dropdown-item" href="./house-starter-page.html">House</a>
 						</div>
 					</li>
 					<li class="nav-item dropdown">
@@ -85,17 +71,9 @@
 							Attendance
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a
-								class="dropdown-item"
-								href="./house-attendance-starter-page.html"
-								>House</a
-							>
+							<a class="dropdown-item" href="./house-attendance-starter-page.html">House</a>
 							<div class="dropdown-divider"></div>
-							<a
-								class="dropdown-item"
-								href="./senate-attendance-starter-page.html"
-								>Senate</a
-							>
+							<a class="dropdown-item" href="./senate-attendance-starter-page.html">Senate</a>
 						</div>
 					</li>
 
@@ -112,23 +90,14 @@
 							Party Loyalty
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="./house-loyalty-starter-page.html"
-								>House</a
-							>
+							<a class="dropdown-item" href="./house-loyalty-starter-page.html">House</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="./senate-loyalty-starter-page.html"
-								>Senate</a
-							>
+							<a class="dropdown-item" href="./senate-loyalty-starter-page.html">Senate</a>
 						</div>
 					</li>
 				</ul>
 				<form class="form-inline my-2 my-lg-0">
-					<input
-						class="form-control mr-sm-2"
-						type="search"
-						placeholder="Search"
-						aria-label="Search"
-					/>
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
 					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
 						Search
 					</button>
@@ -136,43 +105,60 @@
 			</div>
 		</nav>
 		<!-- AQUI HAY BOOTSTRAP	</div> -->
-		<!--<div> 
-				<p>
-					https://www.whitehouse.gov/the_press_office/TransparencyandOpenGovernment
-				</p>
-			</div> --->
-		<!--Table container-->
-		<main>
-			<h2>Congressmen</h2>
-			<p>
-				The major power of the House is to pass federal legislation that affects
-				the entire country, although its bills must also be passed by the Senate
-				and further agreed to by the U.S. President before becoming law (unless
-				both the House and Senate re-pass the legislation with a two-thirds
-				majority in each chamber). The House has some exclusive powers: the
-				power to initiate revenue bills, to impeach officials (impeached
-				officials are subsequently tried in the Senate), and to elect the U.S.
-				President in case there is no majority in the Electoral College.
-			</p>
-			<p>
-				Each U.S. state is represented in the House in proportion to its
-				population as measured in the census, but every state is entitled to at
-				least one representative.
-			</p>
 
-			<table class="table table-hover">
-				<thead class="thead-light">
-					<tr>
-						<th>NAME</th>
-						<th>PARTY</th>
-						<th>STATE</th>
-						<th>Seniority</th>
-						<th>Total votes</th>
-					</tr>
-				</thead>
-				<tbody id="house-data"></tbody>
-			</table>
-			<div></div>
+		<main>
+			<div>
+				<h2>Senators</h2>
+				<p>
+					First convened in 1789, the composition and powers of the Senate are established in Article One of the U.S. Constitution. Each
+					state is represented by two senators, regardless of population, who serve staggered six-year terms. The Senate has several
+					exclusive powers not granted to the House, including consenting to treaties as a precondition to their ratification and consenting
+					to or confirming appointments of Cabinet secretaries, federal judges, other federal executive officials, military officers,
+					regulatory officials, ambassadors, and other federal uniformed officers, as well as trial of federal officials impeached by the
+					House.
+				</p>
+				<div class="filters">
+					<div id="loading">
+						<img src="./img/loader.gif" alt="loading wait a moment" />
+					</div>
+
+					<h6>Filter by Party:</h6>
+					<div>
+						<label for="checkI">Independent</label>
+
+						<input class="form-check form-check-inline" type="checkbox" class="checks" name="politic" value="I" id="checkI" checked />
+						<label for="checkD">Democrat</label>
+						<input class="form-check form-check-inline" type="checkbox" class="checks" name="politic" value="D" checked id="checkD" />
+
+						<label for="checkR">Republican</label>
+						<input class="form-check form-check-inline" type="checkbox" class="checks" name="politic" value="R" id="checkR" checked />
+					</div>
+					<form>
+						<!---  	---->
+						<select id="misoptions">
+							<option value="all">All States</option>
+						</select>
+					</form>
+				</div>
+				<!--- LOADING DIV  
+
+				<div class="spinner-border" role="status">
+					<span class="sr-only">Loading...</span>
+				</div>	---->
+				<table class="table table-bordered table table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col" id="byname" class="selectors">NAME</th>
+							<th scope="col" id="byparites" class="selectors">PARTY</th>
+							<th scope="col" id="bystates" class="selectors">STATE</th>
+							<th scope="col" id="byseniority" class="selectors">Seniority</th>
+							<th scope="col" id="bytotal" class="selectors">Total votes</th>
+						</tr>
+					</thead>
+					<tbody id="cogress113table"></tbody>
+					<!--- LOADING DIV  	---->
+				</table>
+			</div>
 		</main>
 		<script
 			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -189,7 +175,8 @@
 			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 			crossorigin="anonymous"
 		></script>
-		<script src="./scripts/congress-house113.js"></script>
+		<!-- 
+		<script src="./scripts/congress-house113.js"></script> -->
 		<script src="./scripts/house-starter.js"></script>
 	</body>
 </html>

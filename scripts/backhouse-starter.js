@@ -1,6 +1,3 @@
-var members;
-//"Access-Control-Allow-Origin: "
-// var members;
 var patch = window.location.pathname;
 var page = patch.split("/").pop();
 console.log("WICH PAGE", page);
@@ -21,7 +18,6 @@ if (localStorage.getItem("members")) {
 	console.log("localstore members", members);
 	document.getElementById("loading").style.display = "none";
 	// const inputElements = document.getElementsByClassName("form-check");
-
 	//"Access-Control-Allow-Origin: "
 	start();
 } else {
@@ -32,17 +28,14 @@ if (localStorage.getItem("members")) {
 		}
 	})
 		.then(function(response) {
-			//if (response.ok) {
-			console.log("soy response", response);
+			if (response.ok) {
+				console.log("soy response", response);
 
-			return response.json();
-			//}
-			//throw new Error(response.statusText);
+				return response.json();
+			}
+			throw new Error(response.statusText);
 		})
 		.then(function(json) {
-			// do somenthing with json data
-			// onReady(callback);
-
 			console.log("soy data del fetch", json);
 			let members = json.results[0].members;
 			localStorage.setItem("members", JSON.stringify(members));
@@ -53,10 +46,15 @@ if (localStorage.getItem("members")) {
 			// dropDownStates(members);
 			// evenListeners(members);
 			// createDataTable(members);
+		})
+		.catch(function(error) {
+			// called when an error occurs anywhere in the chain
+			// console.log("Request failed: " + error.message);
 		});
 }
+
 function start() {
-	if (page == "house-starter-page.html" || page == "ssenate-starter-page.html") {
+	if (page == "house-starter-page.html" || page == "senate-starter-page.html") {
 		console.log("START MEMBERS", members);
 		dropDownStates(members);
 		evenListeners(members);
@@ -64,30 +62,8 @@ function start() {
 	}
 }
 
-// LLAMAR FUNCIONES QUE EJECUTAN DATOS FILTROS, CREAR TABLA ...
-// SI CREO UNA FUNCION DENTRO DE OTRA FUNCION LA PUEDO LLAMAR DE FUERA? CREO QUE EL SCOPE VA COMO LAS VARIABLES DE DENTRO HACIA AFUERA
-
-//.catch(function(error) {
-// called when an error occurs anywhere in the chain
-// console.log("Request failed: " + error.message);
-//})
-
-// Value to start array from json
-//const members = data.results[0].members;
-// Values to insert in cells
-
-// var members = data.results[0].members;
-
-// console.log(tbody); senate-data
-// console.log(members[1]);
-
-// const tbody = document.getElementById("house-data");
-// const array = data.results[0].members;
-
-// const senatorData = ["name", "party", "state", "seniority", "total_votes"];
-
 function createDataTable(array) {
-	const tbody = document.getElementById("house-data");
+	const tbody = document.getElementById("cogress113table");
 	const senatorData = ["name", "party", "state", "seniority", "total_votes"];
 
 	// create a loop to push  members in table rows
@@ -118,8 +94,13 @@ function createDataTable(array) {
 						createCell.innerHTML = (array[i].first_name + " " + array[i].middle_name + " " + array[i].last_name).link(array[i].url);
 						break;
 					// Filling the rest of the values
+
 					case j > 0:
 						createCell.innerHTML = array[i][senatorData[j]];
+						if (j == 3) {
+							createCell.innerHTML = array[i][senatorData[j]] + " " + "years";
+						}
+
 						break;
 				}
 
